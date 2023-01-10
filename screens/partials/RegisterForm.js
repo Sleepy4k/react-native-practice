@@ -1,4 +1,5 @@
 // Import Core Libraries
+import axios from 'axios';
 import { useState } from 'react';
 import {
   View,
@@ -6,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
 
@@ -13,9 +15,13 @@ import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
 import { createNotif } from '../helpers/Notifcation';
 import { verticalScale, moderateScale } from '../helpers/Responsive';
 
+// Import Config
+import Config from '../../app.config';
+
 export default function LoginForm({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
-    username: '',
+    email: '',
     password: '',
     password_confirmation: '',
   });
@@ -28,29 +34,52 @@ export default function LoginForm({ navigation }) {
   };
 
   const onSubmit = () => {
-    const { username, password, password_confirmation } = values;
+    setLoading(true);
+    const { email, password, password_confirmation } = values;
 
-    if (!username) {
-      createNotif('Please fill username', 'Error');
+    if (!email) {
+      setLoading(false);
+      createNotif('Please fill email', 'Error');
       return;
     }
 
     if (!password) {
+      setLoading(false);
       createNotif('Please fill password', 'Error');
       return;
     }
 
     if (!password_confirmation) {
+      setLoading(false);
       createNotif('Please fill password confirmation', 'Error');
       return;
     }
 
     if (password != password_confirmation) {
+      setLoading(false);
       createNotif('Password does not match with confirmation', 'Error');
       return;
     }
 
-    createNotif('Registration success', 'Success');
+    axios
+      .post(`${Config.extra.apiUrl}/register`, {
+        email: email,
+        password: password,
+      })
+      .then(function (response) {
+        setLoading(false);
+        console.log(response);
+        if (response.status == 200) {
+          createNotif('Registration Success', 'Success');
+        } else {
+          createNotif(response.statusText, 'Error');
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.error(error);
+        createNotif('System Error', 'Error');
+      });
   };
 
   return (
@@ -63,11 +92,13 @@ export default function LoginForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
-          placeholder={'Username'}
+          placeholder={'Email'}
           keyboardType={'default'}
-          defaultValue={values.username}
-          onChangeText={(username) => onChangeText('username', username)}
+          defaultValue={values.email}
+          onChangeText={(email) => onChangeText('email', email)}
         />
       </View>
 
@@ -79,6 +110,8 @@ export default function LoginForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
           placeholder={'Password'}
           keyboardType={'password'}
@@ -96,6 +129,8 @@ export default function LoginForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
           placeholder={'Password Confirmation'}
           keyboardType={'password_confirmation'}
@@ -107,13 +142,22 @@ export default function LoginForm({ navigation }) {
         />
       </View>
 
-      <TouchableOpacity onPress={onSubmit} style={styles.submitBtn}>
-        <Text style={styles.submitText}>Register</Text>
+      <TouchableOpacity
+        onPress={onSubmit}
+        style={styles.submitBtn}
+        disabled={loading}>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={styles.submitText}>Register</Text>
+        )}
       </TouchableOpacity>
 
       <View style={styles.login}>
         <Text>Already have account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Login')}
+          disabled={loading}>
           <Text style={styles.navigateLink}> Login</Text>
         </TouchableOpacity>
       </View>

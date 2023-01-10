@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 
@@ -14,6 +15,7 @@ import { createNotif } from '../helpers/Notifcation';
 import { verticalScale, moderateScale } from '../helpers/Responsive';
 
 export default function ForgotPasswordForm({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     old_password: '',
     password: '',
@@ -28,24 +30,29 @@ export default function ForgotPasswordForm({ navigation }) {
   };
 
   const onSubmit = () => {
+    setLoading(true);
     const { old_password, password, password_confirmation } = values;
 
     if (!old_password) {
+      setLoading(false);
       createNotif('Please fill old password', 'Error');
       return;
     }
 
     if (!password) {
+      setLoading(false);
       createNotif('Please fill new password', 'Error');
       return;
     }
 
     if (!password_confirmation) {
+      setLoading(false);
       createNotif('Please fill new password confirmation', 'Error');
       return;
     }
 
     if (password != password_confirmation) {
+      setLoading(false);
       createNotif('Password does not match with confirmation', 'Error');
       return;
     }
@@ -63,6 +70,8 @@ export default function ForgotPasswordForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
           placeholder={'Old Password'}
           keyboardType={'password'}
@@ -82,6 +91,8 @@ export default function ForgotPasswordForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
           placeholder={'New Password'}
           keyboardType={'password'}
@@ -99,6 +110,8 @@ export default function ForgotPasswordForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
           placeholder={'New Password Confirmation'}
           keyboardType={'password_confirmation'}
@@ -110,13 +123,22 @@ export default function ForgotPasswordForm({ navigation }) {
         />
       </View>
 
-      <TouchableOpacity onPress={onSubmit} style={styles.submitBtn}>
-        <Text style={styles.submitText}>Reset Password</Text>
+      <TouchableOpacity
+        onPress={onSubmit}
+        style={styles.submitBtn}
+        disabled={loading}>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={styles.submitText}>Reset Password</Text>
+        )}
       </TouchableOpacity>
 
       <View style={styles.login}>
         <Text>Already remember your password?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Login')}
+          disabled={loading}>
           <Text style={styles.navigateLink}> Login</Text>
         </TouchableOpacity>
       </View>

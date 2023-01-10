@@ -1,4 +1,5 @@
 // Import Core Libraries
+import axios from 'axios';
 import { useState } from 'react';
 import {
   View,
@@ -6,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
 
@@ -17,8 +19,9 @@ import { verticalScale, moderateScale } from '../helpers/Responsive';
 import Config from '../../app.config';
 
 export default function LoginForm({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
-    username: '',
+    email: '',
     password: '',
   });
 
@@ -30,47 +33,37 @@ export default function LoginForm({ navigation }) {
   };
 
   const onSubmit = () => {
-    const { username, password } = values;
+    setLoading(true);
+    const { email, password } = values;
 
-    if (!username) {
-      createNotif('Please fill username', 'Error');
+    if (!email) {
+      setLoading(false);
+      createNotif('Please fill email', 'Error');
       return;
     }
 
     if (!password) {
+      setLoading(false);
       createNotif('Please fill password', 'Error');
       return;
     }
 
-    let formBody = [];
-    let dataToSend = values;
-
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-
-    formBody = formBody.join('&');
-
-    fetch(`${Config.extra.apiUrl}/login`, {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        if (responseJson.status == 200) {
-          createNotif(responseJson.message, 'Success');
+    axios
+      .post(`${Config.extra.apiUrl}/login`, {
+        email: email,
+        password: password,
+      })
+      .then(function (response) {
+        setLoading(false);
+        console.log(response);
+        if (response.status == 200) {
+          createNotif('Login Success', 'Success');
         } else {
-          createNotif(responseJson.message, 'Error');
+          createNotif(response.statusText, 'Error');
         }
       })
-      .catch((error) => {
+      .catch(function (error) {
+        setLoading(false);
         console.error(error);
         createNotif('System Error', 'Error');
       });
@@ -86,11 +79,13 @@ export default function LoginForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
-          placeholder={'Username'}
+          placeholder={'Email'}
           keyboardType={'default'}
-          defaultValue={values.username}
-          onChangeText={(username) => onChangeText('username', username)}
+          defaultValue={values.email}
+          onChangeText={(email) => onChangeText('email', email)}
         />
       </View>
 
@@ -102,6 +97,8 @@ export default function LoginForm({ navigation }) {
           style={{ marginRight: 5 }}
         />
         <TextInput
+          maxLength={255}
+          editable={!loading}
           style={styles.input}
           placeholder={'Password'}
           keyboardType={'password'}
@@ -109,18 +106,29 @@ export default function LoginForm({ navigation }) {
           secureTextEntry={true}
           onChangeText={(password) => onChangeText('password', password)}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ForgotPassword')}
+          disabled={loading}>
           <Text style={styles.navigateLink}>Forgot?</Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={onSubmit} style={styles.submitBtn}>
-        <Text style={styles.submitText}>Login</Text>
+      <TouchableOpacity
+        onPress={onSubmit}
+        style={styles.submitBtn}
+        disabled={loading}>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={styles.submitText}>Login</Text>
+        )}
       </TouchableOpacity>
 
       <View style={styles.register}>
         <Text>Dont have account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Register')}
+          disabled={loading}>
           <Text style={styles.navigateLink}> Register</Text>
         </TouchableOpacity>
       </View>
