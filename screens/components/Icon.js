@@ -7,7 +7,7 @@ import { horizontalScale, verticalScale } from '../helpers/Responsive';
 export default function Icon() {
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../assets/telkom.jpg')} />
+      <Image style={styles.logo} source={require('../assets/telkom.png')} />
     </View>
   );
 }
