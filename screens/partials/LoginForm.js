@@ -107,11 +107,11 @@ export default function LoginForm({ navigation }) {
       <CustomButton label={'Login'} onPress={onSubmit} disabled={loading} />
 
       <View style={styles.register}>
-        <Text>Dont have account?</Text>
+        <Text>{'Dont have account?'}</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
           disabled={loading}>
-          <Text style={styles.navigateLink}> Register</Text>
+          <Text style={styles.navigateLink}>{' Register'}</Text>
         </TouchableOpacity>
       </View>
     </View>
