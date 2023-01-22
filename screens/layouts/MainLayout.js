@@ -1,29 +1,22 @@
 // Import Core Libraries
 import { useState, useCallback } from 'react';
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  RefreshControl,
-} from 'react-native';
+import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+
+// Import Styles
+import { styles } from '../styles/MainStyle';
+
+// Import Helpers
+import { Wait } from '../helpers/Wait';
 
 // Import Components
 import Icon from '../components/Icon';
 
-// Import Helpers
-import { horizontalScale } from '../helpers/Responsive';
-
-const wait = (timeout) => {
-  return new Promise((resolve) => setTimeout(resolve, timeout));
-};
-
-export default function Login({ children }) {
+export default function MainLayout({ children }) {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    Wait(2000).then(() => setRefreshing(false));
   }, []);
 
   return (
@@ -41,14 +34,3 @@ export default function Login({ children }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: horizontalScale(25),
-  },
-  body: {
-    paddingHorizontal: horizontalScale(25),
-  },
-});
