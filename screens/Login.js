@@ -13,7 +13,7 @@ import LoginForm from './partials/LoginForm';
 export default function Login({ navigation }) {
   return (
     <MainLayout>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>{'Login'}</Text>
       <LoginForm navigation={navigation} />
     </MainLayout>
   );
