@@ -1,18 +1,17 @@
 // Import Core Libraries
 import { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
+import { View, Text, TouchableOpacity } from 'react-native';
+
+// Import Styles
+import { styles } from '../styles/ForgotPasswordStyle';
 
 // Import Helpers
 import { createNotif } from '../helpers/Notifcation';
-import { verticalScale, moderateScale } from '../helpers/Responsive';
+
+// Import Components
+import InputField from '../components/InputField';
+import CustomButton from '../components/CustomButton';
 
 export default function ForgotPasswordForm({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -62,77 +61,63 @@ export default function ForgotPasswordForm({ navigation }) {
 
   return (
     <View>
-      <View style={styles.inputGroup}>
-        <Ionicons
-          name="ios-lock-closed-outline"
-          size={20}
-          color="#666"
-          style={{ marginRight: 5 }}
-        />
-        <TextInput
-          maxLength={255}
-          editable={!loading}
-          style={styles.input}
-          placeholder={'Old Password'}
-          keyboardType={'password'}
-          defaultValue={values.old_password}
-          secureTextEntry={true}
-          onChangeText={(old_password) =>
-            onChangeText('old_password', old_password)
-          }
-        />
-      </View>
+      <InputField
+        icon={
+          <Ionicons
+            name="ios-lock-closed-outline"
+            size={20}
+            color="#666"
+            style={{ marginRight: 5 }}
+          />
+        }
+        label={'Old Password'}
+        editable={!loading}
+        inputType={'password'}
+        defaultValue={values.old_password}
+        inputFunction={(old_password) =>
+          onChangeText('old_password', old_password)
+        }
+      />
 
-      <View style={styles.inputGroup}>
-        <Ionicons
-          name="ios-lock-closed-outline"
-          size={20}
-          color="#666"
-          style={{ marginRight: 5 }}
-        />
-        <TextInput
-          maxLength={255}
-          editable={!loading}
-          style={styles.input}
-          placeholder={'New Password'}
-          keyboardType={'password'}
-          defaultValue={values.password}
-          secureTextEntry={true}
-          onChangeText={(password) => onChangeText('password', password)}
-        />
-      </View>
+      <InputField
+        icon={
+          <Ionicons
+            name="ios-lock-closed-outline"
+            size={20}
+            color="#666"
+            style={{ marginRight: 5 }}
+          />
+        }
+        label={'New Password'}
+        editable={!loading}
+        inputType={'password'}
+        defaultValue={values.password}
+        inputFunction={(password) => onChangeText('password', password)}
+      />
 
-      <View style={styles.inputGroup}>
-        <Ionicons
-          name="ios-lock-closed-outline"
-          size={20}
-          color="#666"
-          style={{ marginRight: 5 }}
-        />
-        <TextInput
-          maxLength={255}
-          editable={!loading}
-          style={styles.input}
-          placeholder={'New Password Confirmation'}
-          keyboardType={'password_confirmation'}
-          defaultValue={values.password_confirmation}
-          secureTextEntry={true}
-          onChangeText={(password_confirmation) =>
-            onChangeText('password_confirmation', password_confirmation)
-          }
-        />
-      </View>
+      <InputField
+        icon={
+          <Ionicons
+            name="ios-lock-closed-outline"
+            size={20}
+            color="#666"
+            style={{ marginRight: 5 }}
+          />
+        }
+        label={'New Password Confirmation'}
+        editable={!loading}
+        inputType={'password'}
+        defaultValue={values.password_confirmation}
+        inputFunction={(password_confirmation) =>
+          onChangeText('password_confirmation', password_confirmation)
+        }
+      />
 
-      <TouchableOpacity
+      <CustomButton
+        label={'Reset Password'}
         onPress={onSubmit}
-        style={styles.submitBtn}
-        disabled={loading}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.submitText}>Reset Password</Text>
-        )}
-      </TouchableOpacity>
+        disabled={loading}
+      />
 
       <View style={styles.login}>
         <Text>Already remember your password?</Text>
@@ -145,37 +130,3 @@ export default function ForgotPasswordForm({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputGroup: {
-    flexDirection: 'row',
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
-    paddingBottom: verticalScale(8),
-    marginBottom: verticalScale(25),
-  },
-  input: {
-    flex: 1,
-    paddingVertical: verticalScale(0),
-  },
-  navigateLink: {
-    color: '#AD40AF',
-    fontWeight: '700',
-  },
-  submitBtn: {
-    backgroundColor: '#AD40AF',
-    padding: 20,
-    borderRadius: moderateScale(10),
-    marginBottom: verticalScale(30),
-  },
-  submitText: {
-    textAlign: 'center',
-    fontWeight: '700',
-    fontSize: moderateScale(16),
-    color: '#fff',
-  },
-  login: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});

@@ -1,22 +1,21 @@
 // Import Core Libraries
 import axios from 'axios';
 import { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
-
-// Import Helpers
-import { createNotif } from '../helpers/Notifcation';
-import { verticalScale, moderateScale } from '../helpers/Responsive';
 
 // Import Config
 import Config from '../../app.config';
+
+// Import Styles
+import { styles } from '../styles/LoginStyle';
+
+// Import Helpers
+import { createNotif } from '../helpers/Notifcation';
+
+// Import Components
+import InputField from '../components/InputField';
+import CustomButton from '../components/CustomButton';
 
 export default function LoginForm({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -71,58 +70,41 @@ export default function LoginForm({ navigation }) {
 
   return (
     <View>
-      <View style={styles.inputGroup}>
-        <MaterialIcons
-          name="person"
-          size={20}
-          color="#666"
-          style={{ marginRight: 5 }}
-        />
-        <TextInput
-          maxLength={255}
-          editable={!loading}
-          style={styles.input}
-          placeholder={'Email'}
-          keyboardType={'default'}
-          defaultValue={values.email}
-          onChangeText={(email) => onChangeText('email', email)}
-        />
-      </View>
+      <InputField
+        icon={
+          <MaterialIcons
+            name="person"
+            size={20}
+            color="#666"
+            style={{ marginRight: 5 }}
+          />
+        }
+        label={'Email'}
+        editable={!loading}
+        inputType={'email-address'}
+        defaultValue={values.email}
+        inputFunction={(email) => onChangeText('email', email)}
+      />
 
-      <View style={styles.inputGroup}>
-        <Ionicons
-          name="ios-lock-closed-outline"
-          size={20}
-          color="#666"
-          style={{ marginRight: 5 }}
-        />
-        <TextInput
-          maxLength={255}
-          editable={!loading}
-          style={styles.input}
-          placeholder={'Password'}
-          keyboardType={'password'}
-          defaultValue={values.password}
-          secureTextEntry={true}
-          onChangeText={(password) => onChangeText('password', password)}
-        />
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ForgotPassword')}
-          disabled={loading}>
-          <Text style={styles.navigateLink}>Forgot?</Text>
-        </TouchableOpacity>
-      </View>
+      <InputField
+        icon={
+          <Ionicons
+            name="ios-lock-closed-outline"
+            size={20}
+            color="#666"
+            style={{ marginRight: 5 }}
+          />
+        }
+        label={'Password'}
+        editable={!loading}
+        inputType={'password'}
+        defaultValue={values.password}
+        inputFunction={(password) => onChangeText('password', password)}
+        fieldButtonLabel={'Forgot?'}
+        fieldButtonFunction={() => navigation.navigate('ForgotPassword')}
+      />
 
-      <TouchableOpacity
-        onPress={onSubmit}
-        style={styles.submitBtn}
-        disabled={loading}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.submitText}>Login</Text>
-        )}
-      </TouchableOpacity>
+      <CustomButton label={'Login'} onPress={onSubmit} disabled={loading} />
 
       <View style={styles.register}>
         <Text>Dont have account?</Text>
@@ -135,37 +117,3 @@ export default function LoginForm({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputGroup: {
-    flexDirection: 'row',
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
-    paddingBottom: verticalScale(8),
-    marginBottom: verticalScale(25),
-  },
-  input: {
-    flex: 1,
-    paddingVertical: verticalScale(0),
-  },
-  navigateLink: {
-    color: '#AD40AF',
-    fontWeight: '700',
-  },
-  submitBtn: {
-    backgroundColor: '#AD40AF',
-    padding: 20,
-    borderRadius: moderateScale(10),
-    marginBottom: verticalScale(30),
-  },
-  submitText: {
-    textAlign: 'center',
-    fontWeight: '700',
-    fontSize: moderateScale(16),
-    color: '#fff',
-  },
-  register: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});
