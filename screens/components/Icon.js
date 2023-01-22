@@ -1,8 +1,8 @@
 // Import Core Libraries
-import { View, StyleSheet, Image } from 'react-native';
+import { View, Image } from 'react-native';
 
-// Import Helpers
-import { horizontalScale, verticalScale } from '../helpers/Responsive';
+// Import Styles
+import { styles } from '../styles/IconStyle';
 
 export default function Icon() {
   return (
@@ -11,15 +11,3 @@ export default function Icon() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    marginTop: verticalScale(50),
-    marginBottom: verticalScale(20),
-  },
-  logo: {
-    height: verticalScale(200),
-    width: horizontalScale(200),
-  },
-});
