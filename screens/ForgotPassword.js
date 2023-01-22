@@ -13,7 +13,7 @@ import ForgotPasswordForm from './partials/ForgotPasswordForm';
 export default function Login({ navigation }) {
   return (
     <MainLayout>
-      <Text style={styles.title}>Forgot Password</Text>
+      <Text style={styles.title}>{'Forgot Password'}</Text>
       <ForgotPasswordForm navigation={navigation} />
     </MainLayout>
   );

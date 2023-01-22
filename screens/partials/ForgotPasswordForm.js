@@ -120,11 +120,11 @@ export default function ForgotPasswordForm({ navigation }) {
       />
 
       <View style={styles.login}>
-        <Text>Already remember your password?</Text>
+        <Text>{'Already remember your password?'}</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
           disabled={loading}>
-          <Text style={styles.navigateLink}> Login</Text>
+          <Text style={styles.navigateLink}>{' Login'}</Text>
         </TouchableOpacity>
       </View>
     </View>

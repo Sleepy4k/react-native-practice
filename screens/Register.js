@@ -13,7 +13,7 @@ import RegisterForm from './partials/RegisterForm';
 export default function Register({ navigation }) {
   return (
     <MainLayout>
-      <Text style={styles.title}>Register</Text>
+      <Text style={styles.title}>{'Register'}</Text>
       <RegisterForm navigation={navigation} />
     </MainLayout>
   );
