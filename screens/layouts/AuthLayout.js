@@ -3,15 +3,12 @@ import { useState, useCallback } from 'react';
 import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
 
 // Import Styles
-import { styles } from '../styles/MainStyle';
+import { styles } from '../styles/AuthLayoutStyle';
 
 // Import Helpers
 import { Wait } from '../helpers/Wait';
 
-// Import Components
-import Icon from '../components/Icon';
-
-export default function MainLayout({ children }) {
+export default function AuthLayout({ children }) {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -27,7 +24,6 @@ export default function MainLayout({ children }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <View style={styles.body}>
-          <Icon />
           {children}
         </View>
       </ScrollView>

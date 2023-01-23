@@ -13,6 +13,6 @@ export const createNotif = (message, title) => {
   } else if (Platform.OS == 'web') {
     alert(message);
   } else {
-    Alert.alert(message, title);
+    Alert.alert(title, message);
   }
 };

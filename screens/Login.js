@@ -5,16 +5,16 @@ import { Text } from 'react-native';
 import { styles } from './styles/LoginStyle';
 
 // Import Layout
-import MainLayout from './layouts/MainLayout';
+import GuestLayout from './layouts/GuestLayout';
 
 // Import Partials
 import LoginForm from './partials/LoginForm';
 
 export default function Login({ navigation }) {
   return (
-    <MainLayout>
+    <GuestLayout>
       <Text style={styles.title}>{'Login'}</Text>
       <LoginForm navigation={navigation} />
-    </MainLayout>
+    </GuestLayout>
   );
 }
