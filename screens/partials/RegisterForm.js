@@ -1,8 +1,8 @@
 // Import Core Libraries
 import axios from 'axios';
 import { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
+import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
 
 // Import Config
 import Config from '../../app.config';
@@ -10,99 +10,162 @@ import Config from '../../app.config';
 // Import Styles
 import { styles } from '../styles/RegisterStyle';
 
+// Import Const
+import { AxiosHeader } from '../constant/AxiosHeader';
+
 // Import Helpers
 import { createNotif } from '../helpers/Notifcation';
 
 // Import Components
+import Loader from '../components/Loader';
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 
 export default function RegisterForm({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
-    email: '',
+    name: '',
+    username: '',
     password: '',
     password_confirmation: '',
   });
 
-  const onChangeText = (input, data) => {
-    setValues({
-      ...values,
-      [input]: data,
-    });
+  const [errors, setErrors] = useState({
+    name: '',
+    username: '',
+    password: '',
+    password_confirmation: '',
+  });
+
+  const handleError = (error, input) => {
+    setErrors((prevValues) => ({ ...prevValues, [input]: error }));
   };
 
-  const onSubmit = () => {
+  const handleOnchange = (text, input) => {
+    setValues((prevValues) => ({ ...prevValues, [input]: text }));
+  };
+
+  const validate = async () => {
+    Keyboard.dismiss();
+
+    let isValid = true;
+
+    if (!values.name) {
+      handleError('Please input name', 'name');
+      isValid = false;
+    } else if (values.name.length > 255) {
+      handleError('Name cannot exceed 255 characters', 'name');
+      isValid = false;
+    }
+
+    if (!values.username) {
+      handleError('Please input username', 'username');
+      isValid = false;
+    } else if (values.username.length > 255) {
+      handleError('Username cannot exceed 255 characters', 'username');
+      isValid = false;
+    }
+
+    if (!values.password) {
+      handleError('Please input password', 'password');
+      isValid = false;
+    } else if (values.password.length < 8) {
+      handleError('Password must have at least 8 characters', 'password');
+      isValid = false;
+    } else if (values.password.length > 255) {
+      handleError('Password cannot exceed 255 characters', 'password');
+      isValid = false;
+    }
+
+    if (!values.password_confirmation) {
+      handleError(
+        'Please input password confirmation',
+        'password_confirmation'
+      );
+      isValid = false;
+    } else if (values.password_confirmation.length < 8) {
+      handleError(
+        'Password confirmation must have at least 8 characters',
+        'password_confirmation'
+      );
+      isValid = false;
+    } else if (values.password_confirmation.length > 255) {
+      handleError(
+        'Password confirmation cannot exceed 255 characters',
+        'password_confirmation'
+      );
+      isValid = false;
+    }
+
+    if (values.password != values.password_confirmation) {
+      handleError('Password does not match with confirmation', 'password');
+      isValid = false;
+    }
+
+    if (isValid) {
+      submit();
+    }
+  };
+
+  const submit = () => {
     setLoading(true);
-    const { email, password, password_confirmation } = values;
-
-    if (!email) {
-      setLoading(false);
-      createNotif('Please fill email', 'Error');
-      return;
-    }
-
-    if (!password) {
-      setLoading(false);
-      createNotif('Please fill password', 'Error');
-      return;
-    }
-
-    if (!password_confirmation) {
-      setLoading(false);
-      createNotif('Please fill password confirmation', 'Error');
-      return;
-    }
-
-    if (password != password_confirmation) {
-      setLoading(false);
-      createNotif('Password does not match with confirmation', 'Error');
-      return;
-    }
 
     axios
-      .post(`${Config.extra.apiUrl}/register`, {
-        email: email,
-        password: password,
-      })
+      .post(`${Config.extra.apiUrl}/register`, values, AxiosHeader)
       .then(function (response) {
         setLoading(false);
-        console.log(response);
-        if (response.status == 200) {
-          createNotif('Registration Success', 'Success');
-        } else {
-          createNotif(response.statusText, 'Error');
-        }
+        createNotif(response.data.message, 'Success');
+        navigation.navigate('Login');
       })
       .catch(function (error) {
+        const response = error.response;
+
         setLoading(false);
-        console.error(error);
-        createNotif('System Error', 'Error');
+        createNotif(response.data.errors, response.data.message);
+
+        return response;
       });
   };
 
   return (
     <View>
+      <Loader visible={loading} text={'Please Wait...'} />
       <InputField
         icon={
           <MaterialIcons
-            name="person"
+            name={'person'}
             size={20}
             color="#666"
             style={{ marginRight: 5 }}
           />
         }
-        label={'Email'}
+        label={'Full Name'}
+        error={errors.name}
         editable={!loading}
-        inputType={'email-address'}
-        defaultValue={values.email}
-        inputFunction={(email) => onChangeText('email', email)}
+        defaultValue={values.name}
+        inputFunction={(name) => handleOnchange(name, 'name')}
+      />
+
+      <InputField
+        icon={
+          <MaterialIcons
+            name={'person'}
+            size={20}
+            color="#666"
+            style={{ marginRight: 5 }}
+          />
+        }
+        label={'Username'}
+        editable={!loading}
+        error={errors.username}
+        defaultValue={values.username}
+        inputFunction={(username) => handleOnchange(username, 'username')}
       />
 
       <InputField
         icon={
           <Ionicons
-            name="ios-lock-closed-outline"
+            name={'ios-lock-closed-outline'}
             size={20}
             color="#666"
             style={{ marginRight: 5 }}
@@ -111,14 +174,15 @@ export default function RegisterForm({ navigation }) {
         label={'Password'}
         editable={!loading}
         inputType={'password'}
+        error={errors.password}
         defaultValue={values.password}
-        inputFunction={(password) => onChangeText('password', password)}
+        inputFunction={(password) => handleOnchange(password, 'password')}
       />
 
       <InputField
         icon={
           <Ionicons
-            name="ios-lock-closed-outline"
+            name={'ios-lock-closed-outline'}
             size={20}
             color="#666"
             style={{ marginRight: 5 }}
@@ -127,13 +191,14 @@ export default function RegisterForm({ navigation }) {
         label={'Password Confirmation'}
         editable={!loading}
         inputType={'password'}
+        error={errors.password_confirmation}
         defaultValue={values.password_confirmation}
         inputFunction={(password_confirmation) =>
-          onChangeText('password_confirmation', password_confirmation)
+          handleOnchange(password_confirmation, 'password_confirmation')
         }
       />
 
-      <CustomButton label={'Register'} onPress={onSubmit} disabled={loading} />
+      <CustomButton label={'Register'} onPress={validate} disabled={loading} />
 
       <View style={styles.login}>
         <Text>{'Already have account?'}</Text>
