@@ -1,11 +1,9 @@
-export const AxiosHeader = {
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json;charset=UTF-8',
-  },
-};
-
 export const axiosConfig = {
+  'Accept': 'application/json',
   'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json;charset=UTF-8',
+  'Content-Type': 'application/json'
 }
+
+export const AxiosHeader = {
+  headers: axiosConfig,
+};
