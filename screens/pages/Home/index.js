@@ -1,4 +1,5 @@
 // Import Core Libraries
+import axios from 'axios';
 import { Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +13,9 @@ import styles from './styles';
 // Import Const
 import { axiosConfig } from '../../constant/AxiosHeader';
 
+// Import Helpers
+import createNotif from '../../helpers/Notifcation';
+
 // Import Layout
 import AuthLayout from '../../layouts/AuthLayout';
 
@@ -22,8 +26,10 @@ export default function Home({ navigation }) {
   const [userDetail, setUserDetail] = useState();
 
   const axiosHeader = {
-    Authorization: 'Bearer ' + userDetail?.token,
-    ...axiosConfig,
+    headers: {
+      Authorization: `Bearer ${userDetail?.token}`,
+      ...axiosConfig,
+    }
   };
 
   const getUserData = async () => {
@@ -37,28 +43,22 @@ export default function Home({ navigation }) {
     }
   };
 
-  const logout = async () => {
-    await AsyncStorage.removeItem('authUser');
+  const logout = () => {
+    axios
+      .post(`${Config.extra.apiUrl}/logout`, {}, axiosHeader)
+      .then(function (response) {
+        createNotif(response.data.message, 'System');
+        AsyncStorage.clear();
+        navigation.navigate('Login');
+      })
+      .catch(function (error) {
+        const response = error.response;
 
-    navigation.navigate('Login');
+        createNotif(response.data.data, response.data.message);
+
+        return response;
+      });
   };
-
-  // const logout = () => {
-  //   axios
-  //     .post(`${Config.extra.apiUrl}/logout`, {}, axiosHeader)
-  //     .then(function (response) {
-  //       console.log(response);
-  //       navigation.navigate('Login');
-  //       AsyncStorage.removeItem('authUser');
-  //     })
-  //     .catch(function (error) {
-  //       const response = error.response;
-
-  //       console.log(response);
-
-  //       return response;
-  //     });
-  // };
 
   useEffect(() => {
     getUserData();
@@ -66,8 +66,8 @@ export default function Home({ navigation }) {
 
   return (
     <AuthLayout>
-      <Text style={styles.text}>Welcome {userDetail?.data.name}</Text>
-      <CustomButton label="Logout" onPress={logout} />
+      <Text style={styles.text}>{'Welcome '}{userDetail?.data.name}</Text>
+      <CustomButton label={'Logout'} onPress={logout} />
     </AuthLayout>
   );
 }
