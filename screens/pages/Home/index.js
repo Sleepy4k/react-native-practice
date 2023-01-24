@@ -4,19 +4,19 @@ import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import Config
-import Config from './../app.config';
+import Config from '../../../app.config';
 
 // Import Styles
-import { styles } from './styles/HomeStyle';
+import styles from './styles';
 
 // Import Const
-import { axiosConfig } from './constant/AxiosHeader';
+import { axiosConfig } from '../../constant/AxiosHeader';
 
 // Import Layout
-import AuthLayout from './layouts/AuthLayout';
+import AuthLayout from '../../layouts/AuthLayout';
 
 // Import Components
-import CustomButton from './components/CustomButton';
+import CustomButton from '../../components/CustomButton';
 
 export default function Home({ navigation }) {
   const [userDetail, setUserDetail] = useState();

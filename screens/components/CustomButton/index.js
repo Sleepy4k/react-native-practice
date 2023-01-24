@@ -1,8 +1,8 @@
 // Import Core Libraries
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 // Import Styles
-import { styles } from '../styles/CustomButtonStyle';
+import styles from './styles';
 
 export default function CustomButton({
   label = '',

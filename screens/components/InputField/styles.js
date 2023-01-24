@@ -2,12 +2,12 @@
 import { StyleSheet } from 'react-native';
 
 // Import Const
-import { Colors } from '../constant/Colors';
+import Colors from '../../constant/Colors';
 
 // Import Helpers
-import { verticalScale } from '../helpers/Responsive';
+import { verticalScale } from '../../helpers/Responsive';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingVertical: verticalScale(0),
@@ -15,21 +15,23 @@ export const styles = StyleSheet.create({
   inputGroup: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.white,
-    paddingBottom: verticalScale(8),
     marginBottom: verticalScale(25),
+    paddingBottom: verticalScale(8),
+    borderBottomColor: Colors.white,
   },
   inputError: {
+    fontSize: 12,
     marginTop: 7,
     color: Colors.red,
-    fontSize: 12,
   },
   showPassword: {
-    color: Colors.darkBlue,
     fontSize: 22,
+    color: Colors.darkBlue,
   },
   navigateLink: {
     fontWeight: '700',
     color: Colors.purple,
   },
 });
+
+export default styles;

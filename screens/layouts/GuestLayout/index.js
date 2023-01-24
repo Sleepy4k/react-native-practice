@@ -3,13 +3,13 @@ import { useState, useCallback } from 'react';
 import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
 
 // Import Styles
-import { styles } from '../styles/GuestLayoutStyle';
+import styles from './styles';
 
 // Import Helpers
-import { Wait } from '../helpers/Wait';
+import Wait from '../../helpers/Wait';
 
 // Import Components
-import Icon from '../components/Icon';
+import Icon from '../../components/Icon';
 
 export default function GuestLayout({ children }) {
   const [refreshing, setRefreshing] = useState(false);

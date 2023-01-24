@@ -2,10 +2,10 @@
 import { View, Text, ActivityIndicator } from 'react-native';
 
 // Import Const
-import { Colors } from '../constant/Colors';
+import Colors from '../../constant/Colors';
 
 // Import Styles
-import { styles } from '../styles/LoaderStyle';
+import styles from './styles';
 
 export default function Loader({ visible = false, text = 'Loading...' }) {
   return (

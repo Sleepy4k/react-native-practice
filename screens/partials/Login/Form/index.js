@@ -6,22 +6,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
 
 // Import Config
-import Config from '../../app.config';
+import Config from '../../../../app.config';
 
 // Import Styles
-import { styles } from '../styles/LoginStyle';
+import styles from './styles';
 
 // Import Const
-import { Colors } from '../constant/Colors';
-import { AxiosHeader } from '../constant/AxiosHeader';
+import Colors from '../../../constant/Colors';
+import { AxiosHeader } from '../../../constant/AxiosHeader';
 
 // Import Helpers
-import { createNotif } from '../helpers/Notifcation';
+import createNotif from '../../../helpers/Notifcation';
 
 // Import Components
-import Loader from '../components/Loader';
-import InputField from '../components/InputField';
-import CustomButton from '../components/CustomButton';
+import Loader from '../../../components/Loader';
+import InputField from '../../../components/InputField';
+import CustomButton from '../../../components/CustomButton';
 
 export default function LoginForm({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -80,7 +80,6 @@ export default function LoginForm({ navigation }) {
       .then(function (response) {
         setLoading(false);
         createNotif(response.data.message, 'Success');
-        navigation.navigate('Home');
         AsyncStorage.setItem(
           'authUser',
           JSON.stringify({
@@ -90,6 +89,7 @@ export default function LoginForm({ navigation }) {
             token_expired: response.data.expires_in,
           })
         );
+        navigation.navigate('Home');
       })
       .catch(function (error) {
         const response = error.response;
@@ -107,7 +107,7 @@ export default function LoginForm({ navigation }) {
       <InputField
         icon={
           <MaterialIcons
-            name={"person"}
+            name={'person'}
             size={20}
             color={Colors.grey}
             style={{ marginRight: 5 }}
@@ -124,7 +124,7 @@ export default function LoginForm({ navigation }) {
       <InputField
         icon={
           <Ionicons
-            name={"ios-lock-closed-outline"}
+            name={'ios-lock-closed-outline'}
             size={20}
             color={Colors.grey}
             style={{ marginRight: 5 }}

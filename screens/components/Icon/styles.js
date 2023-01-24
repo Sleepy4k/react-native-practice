@@ -2,9 +2,9 @@
 import { StyleSheet } from 'react-native';
 
 // Import Helpers
-import { verticalScale, horizontalScale } from '../helpers/Responsive';
+import { verticalScale, horizontalScale } from '../../helpers/Responsive';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: verticalScale(50),
@@ -15,3 +15,5 @@ export const styles = StyleSheet.create({
     width: horizontalScale(200),
   },
 });
+
+export default styles;

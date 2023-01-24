@@ -2,12 +2,12 @@
 import { StyleSheet } from 'react-native';
 
 // Import Const
-import { Colors } from '../constant/Colors';
+import Colors from '../../constant/Colors';
 
 // Import Helpers
-import { verticalScale, moderateScale } from '../helpers/Responsive';
+import { verticalScale, moderateScale } from '../../helpers/Responsive';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   submitButton: {
     padding: 20,
     backgroundColor: Colors.purple,
@@ -21,3 +21,5 @@ export const styles = StyleSheet.create({
     fontSize: moderateScale(16),
   },
 });
+
+export default styles;

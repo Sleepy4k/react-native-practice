@@ -2,16 +2,16 @@
 import { StyleSheet } from 'react-native';
 
 // Import Const
-import { Colors } from '../constant/Colors';
+import Colors from '../../constant/Colors';
 
 // Import Helpers
 import {
   verticalScale,
   moderateScale,
   horizontalScale,
-} from '../helpers/Responsive';
+} from '../../helpers/Responsive';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     zIndex: 10,
     position: 'absolute',
@@ -31,3 +31,5 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
+
+export default styles;

@@ -4,15 +4,15 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 // Import Const
-import { Colors } from '../constant/Colors';
+import Colors from '../../constant/Colors';
 
 // Import Styles
-import { styles } from '../styles/InputFieldStyle';
+import styles from './styles';
 
 export default function InputField({
-  error = null,
   label = '',
   icon = null,
+  error = null,
   editable = true,
   hideInput = true,
   defaultValue = null,

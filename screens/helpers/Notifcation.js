@@ -1,7 +1,7 @@
 // Import Core Libraries
 import { Alert, Platform, ToastAndroid } from 'react-native';
 
-export const createNotif = (message, title) => {
+const createNotif = (message, title) => {
   if (Platform.OS == 'android') {
     ToastAndroid.showWithGravityAndOffset(
       message,
@@ -16,3 +16,5 @@ export const createNotif = (message, title) => {
     Alert.alert(title, message);
   }
 };
+
+export default createNotif;

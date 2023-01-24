@@ -2,9 +2,9 @@
 import { StyleSheet } from 'react-native';
 
 // Import Helpers
-import { horizontalScale } from '../helpers/Responsive';
+import { horizontalScale } from '../../helpers/Responsive';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -14,3 +14,5 @@ export const styles = StyleSheet.create({
     paddingHorizontal: horizontalScale(25),
   },
 });
+
+export default styles;
