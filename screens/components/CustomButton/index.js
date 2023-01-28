@@ -1,14 +1,11 @@
 // Import Core Libraries
+import PropTypes from 'prop-types';
 import { Text, TouchableOpacity } from 'react-native';
 
 // Import Styles
 import styles from './styles';
 
-export default function CustomButton({
-  label = '',
-  disabled = false,
-  onPress = () => {},
-}) {
+const CustomButton = ({ label, disabled, onPress }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -18,4 +15,17 @@ export default function CustomButton({
       <Text style={styles.submitText}>{label}</Text>
     </TouchableOpacity>
   );
-}
+};
+
+CustomButton.propTypes = {
+  onPress: PropTypes.func,
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
+CustomButton.defaultProps = {
+  label: '',
+  disabled: false,
+};
+
+export default CustomButton;

@@ -1,13 +1,14 @@
 // Import Core Libraries
+import PropTypes from 'prop-types';
 import { View, Text, ActivityIndicator } from 'react-native';
 
-// Import Const
-import Colors from '../../constant/Colors';
+// Import Consts
+import { Colors } from '../../constant';
 
 // Import Styles
 import styles from './styles';
 
-export default function Loader({ visible = false, text = 'Loading...' }) {
+const Loader = ({ visible, text }) => {
   return (
     visible && (
       <View style={styles.container}>
@@ -18,4 +19,16 @@ export default function Loader({ visible = false, text = 'Loading...' }) {
       </View>
     )
   );
-}
+};
+
+Loader.propTypes = {
+  text: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
+};
+
+Loader.defaultProps = {
+  text: 'Loading...',
+  visible: false,
+};
+
+export default Loader;
