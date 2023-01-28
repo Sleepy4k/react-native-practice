@@ -1,29 +1,27 @@
 // Import Core Libraries
 import axios from 'axios';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
 
 // Import Config
-import Config from '../../../../app.config';
+import Config from '../../../../app.json';
 
 // Import Styles
 import styles from './styles';
 
-// Import Const
-import Colors from '../../../constant/Colors';
-import { AxiosHeader } from '../../../constant/AxiosHeader';
+// Import Consts
+import { Colors, AxiosHeader } from '../../../constant';
 
 // Import Helpers
-import createNotif from '../../../helpers/Notifcation';
+import { Notifcation } from '../../../helpers';
 
 // Import Components
-import Loader from '../../../components/Loader';
-import InputField from '../../../components/InputField';
-import CustomButton from '../../../components/CustomButton';
+import { Loader, InputField, CustomButton } from '../../../components';
 
-export default function LoginForm({ navigation }) {
+const LoginForm = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     username: '',
@@ -76,10 +74,9 @@ export default function LoginForm({ navigation }) {
     setLoading(true);
 
     axios
-      .post(`${Config.extra.apiUrl}/login`, values, AxiosHeader)
+      .post(`${Config.expo.extra.apiUrl}/login`, values, { headers: AxiosHeader })
       .then(function (response) {
-        setLoading(false);
-        createNotif(response.data.message, 'Success');
+        Notifcation(response.data.message, 'Success');
         AsyncStorage.setItem(
           'authUser',
           JSON.stringify({
@@ -89,16 +86,22 @@ export default function LoginForm({ navigation }) {
             token_expired: response.data.expires_in,
           })
         );
-        navigation.navigate('Home');
+        navigation.navigate('Auth', {
+          screen: 'Dashboard',
+        });
       })
       .catch(function (error) {
         const response = error.response;
 
-        setLoading(false);
-        createNotif(response.data.errors, response.data.message);
+        if (response.data == null) {
+          Notifcation(response.data.data, response.data.message);
+        } else {
+          Notifcation('Server cant be accessed', 'Server Error');
+        }
 
         return response;
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -151,4 +154,10 @@ export default function LoginForm({ navigation }) {
       </View>
     </View>
   );
-}
+};
+
+LoginForm.propTypes = {
+  navigation: PropTypes.object.isRequired,
+};
+
+export default LoginForm;

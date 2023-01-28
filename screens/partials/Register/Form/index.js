@@ -1,28 +1,26 @@
 // Import Core Libraries
 import axios from 'axios';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
 import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
 
 // Import Config
-import Config from '../../../../app.config';
+import Config from '../../../../app.json';
 
 // Import Styles
 import styles from './styles';
 
-// Import Const
-import Colors from '../../../constant/Colors';
-import { AxiosHeader } from '../../../constant/AxiosHeader';
+// Import Consts
+import { Colors, AxiosHeader } from '../../../constant';
 
 // Import Helpers
-import createNotif from '../../../helpers/Notifcation';
+import { Notifcation } from '../../../helpers';
 
 // Import Components
-import Loader from '../../../components/Loader';
-import InputField from '../../../components/InputField';
-import CustomButton from '../../../components/CustomButton';
+import { Loader, InputField, CustomButton } from '../../../components';
 
-export default function RegisterForm({ navigation }) {
+const RegisterForm = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     name: '',
@@ -112,20 +110,23 @@ export default function RegisterForm({ navigation }) {
     setLoading(true);
 
     axios
-      .post(`${Config.extra.apiUrl}/register`, values, AxiosHeader)
+      .post(`${Config.expo.extra.apiUrl}/register`, values, { headers: AxiosHeader })
       .then(function (response) {
-        setLoading(false);
-        createNotif(response.data.message, 'Success');
+        Notifcation(response.data.message, 'Success');
         navigation.navigate('Login');
       })
       .catch(function (error) {
         const response = error.response;
 
-        setLoading(false);
-        createNotif(response.data.errors, response.data.message);
+        if (response.data == null) {
+          Notifcation('Server cant be reached', 'Server Error');
+        } else {
+          Notifcation(response.data.data, response.data.message);
+        }
 
         return response;
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -211,4 +212,10 @@ export default function RegisterForm({ navigation }) {
       </View>
     </View>
   );
-}
+};
+
+RegisterForm.propTypes = {
+  navigation: PropTypes.object.isRequired,
+};
+
+export default RegisterForm;
