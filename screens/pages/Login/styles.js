@@ -1,19 +1,19 @@
 // Import Core Libraries
 import { StyleSheet } from 'react-native';
 
-// Import Const
-import Colors from '../../constant/Colors';
+// Import Consts
+import { Colors } from '../../constant';
 
 // Import Helpers
-import { verticalScale, moderateScale } from '../../helpers/Responsive';
+import { Responsive } from '../../helpers';
 
 const styles = StyleSheet.create({
   title: {
     fontWeight: '500',
     color: Colors.grey,
     fontFamily: 'Roboto-Medium',
-    fontSize: moderateScale(28),
-    marginBottom: verticalScale(30),
+    fontSize: Responsive.moderate(28),
+    marginBottom: Responsive.vertical(30),
   },
 });
 

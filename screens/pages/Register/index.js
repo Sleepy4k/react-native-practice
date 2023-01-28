@@ -4,8 +4,8 @@ import { Text } from 'react-native';
 // Import Styles
 import styles from './styles';
 
-// Import Layout
-import GuestLayout from '../../layouts/GuestLayout';
+// Import Layouts
+import { GuestLayout } from '../../layouts';
 
 // Import Partials
 import { Form } from '../../partials/Register';
