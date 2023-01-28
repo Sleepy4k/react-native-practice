@@ -6,10 +6,10 @@ import { View, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
 import styles from './styles';
 
 // Import Helpers
-import Wait from '../../helpers/Wait';
+import { Wait } from '../../helpers';
 
 // Import Components
-import Icon from '../../components/Icon';
+import { Icon } from '../../components';
 
 export default function GuestLayout({ children }) {
   const [refreshing, setRefreshing] = useState(false);
