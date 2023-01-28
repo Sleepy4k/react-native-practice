@@ -1,22 +1,22 @@
 // Import Core Libraries
 import { StyleSheet } from 'react-native';
 
-// Import Const
-import Colors from '../../constant/Colors';
+// Import Consts
+import { Colors } from '../../constant';
 
 // Import Helpers
-import { verticalScale } from '../../helpers/Responsive';
+import { Responsive } from '../../helpers';
 
 const styles = StyleSheet.create({
   input: {
     flex: 1,
-    paddingVertical: verticalScale(0),
+    paddingVertical: Responsive.vertical(0),
   },
   inputGroup: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    marginBottom: verticalScale(25),
-    paddingBottom: verticalScale(8),
+    marginBottom: Responsive.vertical(25),
+    paddingBottom: Responsive.vertical(8),
     borderBottomColor: Colors.white,
   },
   inputError: {

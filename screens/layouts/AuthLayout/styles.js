@@ -2,17 +2,17 @@
 import { StyleSheet } from 'react-native';
 
 // Import Helpers
-import { horizontalScale } from '../../helpers/Responsive';
+import { Responsive } from '../../helpers';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: horizontalScale(40),
+    paddingHorizontal: Responsive.horizontal(40),
   },
   body: {
-    paddingHorizontal: horizontalScale(25),
+    paddingHorizontal: Responsive.horizontal(25),
   },
 });
 

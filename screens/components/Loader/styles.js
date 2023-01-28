@@ -1,15 +1,11 @@
 // Import Core Libraries
 import { StyleSheet } from 'react-native';
 
-// Import Const
-import Colors from '../../constant/Colors';
+// Import Consts
+import { Colors } from '../../constant';
 
 // Import Helpers
-import {
-  verticalScale,
-  moderateScale,
-  horizontalScale,
-} from '../../helpers/Responsive';
+import { Responsive } from '../../helpers';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,11 +16,11 @@ const styles = StyleSheet.create({
   loader: {
     alignItems: 'center',
     flexDirection: 'row',
-    height: verticalScale(70),
     backgroundColor: Colors.white,
-    borderRadius: moderateScale(5),
-    marginHorizontal: horizontalScale(50),
-    paddingHorizontal: horizontalScale(20),
+    height: Responsive.vertical(70),
+    borderRadius: Responsive.moderate(5),
+    marginHorizontal: Responsive.horizontal(50),
+    paddingHorizontal: Responsive.horizontal(20),
   },
   text: {
     fontSize: 16,

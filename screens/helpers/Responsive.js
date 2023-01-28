@@ -1,17 +1,22 @@
 // Import Helpers
-import { windowWidth, windowHeight } from './Dimension';
+import Dimension from './Dimension';
 
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
-// Width calculation
-export const horizontalScale = (size) =>
-  (windowWidth / guidelineBaseWidth) * size;
+const Responsive = {
+  horizontal: horizontalScale,
+  vertical: verticalScale,
+  moderate: moderateScale,
+};
 
-// Height calculation
-export const verticalScale = (size) =>
-  (windowHeight / guidelineBaseHeight) * size;
-
-// Font Size and Border Radius calculation
-export const moderateScale = (size, factor = 0.5) =>
+const horizontalScale = (size) => (Dimension.width / guidelineBaseWidth) * size;
+const verticalScale = (size) => (Dimension.height / guidelineBaseHeight) * size;
+const moderateScale = (size, factor = 0.5) =>
   size + (horizontalScale(size) - size) * factor;
+
+Responsive.horizontal = horizontalScale;
+Responsive.vertical = verticalScale;
+Responsive.moderate = moderateScale;
+
+export default Responsive;

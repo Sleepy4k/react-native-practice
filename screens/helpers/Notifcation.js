@@ -1,4 +1,5 @@
 // Import Core Libraries
+import PropTypes from 'prop-types';
 import { Alert, Platform, ToastAndroid } from 'react-native';
 
 const createNotif = (message, title) => {
@@ -15,6 +16,16 @@ const createNotif = (message, title) => {
   } else {
     Alert.alert(title, message);
   }
+};
+
+createNotif.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
+
+createNotif.defaultProps = {
+  title: '',
+  message: '',
 };
 
 export default createNotif;

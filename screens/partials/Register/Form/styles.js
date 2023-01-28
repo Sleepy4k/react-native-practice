@@ -2,7 +2,7 @@
 import { StyleSheet } from 'react-native';
 
 // Import Const
-import Colors from '../../../constant/Colors';
+import { Colors } from '../../../constant';
 
 const styles = StyleSheet.create({
   navigateLink: {

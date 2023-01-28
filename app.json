@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "practice-react-native",
-    "slug": "snack-fec26687-e9d8-4ec2-b802-ed409e63ceee",
+    "slug": "snack-1b53cb40-bead-465f-b810-86275ef90939",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./screens/assets/telkom.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./screens/assets/telkom.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,13 +22,16 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./screens/assets/telkom.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./screens/assets/telkom.png"
     },
-    "description": "Belajar React Native"
+    "description": "Belajar React Native",
+    "extra": {
+      "apiUrl": "https://ternaqu.site/ebook/api"
+    }
   }
 }
